@@ -17,7 +17,8 @@ endfunction
 function! s:command.complete(args)
   let arglead = a:args[-1]
   let cmdline = a:args
-  return []
+  return vimshell#complete#helper#keyword_filter(
+  \        gitcomplete#complete(arglead, cmdline), arglead)
 endfunction
 
 
