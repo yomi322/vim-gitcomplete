@@ -41,5 +41,10 @@ function! gitcomplete#utils#refs()
 endfunction
 
 
+function! gitcomplete#utils#revlist()
+  return gitcomplete#utils#refs()
+endfunction
+
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
