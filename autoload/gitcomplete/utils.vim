@@ -29,5 +29,17 @@ function! gitcomplete#utils#heads()
 endfunction
 
 
+function! gitcomplete#utils#refs()
+  let gitdir = gitcomplete#utils#get_gitdir()
+  let heads = filter(['HEAD', 'FETCH_HEAD', 'ORIG_HEAD', 'MERGE_HEAD'],
+  \                  "filereadable(gitdir . '/' . v:val)")
+  let s = vimproc#system(
+  \         "git for-each-ref --format='%(refname:short)' " .
+  \         "refs/tags refs/heads refs/remotes")
+  let refs = vimproc#get_last_status() == 0 ? split(s, '\n') : []
+  return gitcomplete#utils#to_comp(heads + refs)
+endfunction
+
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
