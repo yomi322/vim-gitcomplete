@@ -7,7 +7,13 @@ function! gitcomplete#complete(arglead, cmdline)
   if command ==# ''
     return gitcomplete#git#complete(a:arglead, a:cmdline)
   else
-    return []
+    let command = substitute(command, '-', '_', 'g')
+    try
+      return call('gitcomplete#' . command . '#complete',
+      \           [a:arglead, a:cmdline])
+    catch /^Vim\%((\a\+)\)\=:E117/
+      return []
+    endtry
   endif
 endfunction
 
