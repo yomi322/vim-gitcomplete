@@ -12,5 +12,23 @@ function! gitcomplete#complete(arglead, cmdline)
 endfunction
 
 
+function! s:get_command(cmdline)
+  let i = 0
+  let len = len(a:cmdline) - 1
+  while i < len
+    let arg = a:cmdline[i]
+    if arg ==# '--help'
+      return 'help'
+    elseif arg ==# '-c'
+      let i = i + 1
+    elseif arg !~# '^-'
+      return arg
+    endif
+    let i = i + 1
+  endwhile
+  return ''
+endfunction
+
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
