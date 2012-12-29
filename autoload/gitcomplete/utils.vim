@@ -12,5 +12,14 @@ function! gitcomplete#utils#has_arg(cmdline, args)
 endfunction
 
 
+function! gitcomplete#utils#get_gitdir()
+  if isdirectory('.git')
+    return '.git'
+  endif
+  let s = vimproc#system('git rev-parse --git-dir')
+  return vimproc#get_last_status() == 0 ? split(s, '\n')[0] : ''
+endfunction
+
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
