@@ -5,7 +5,7 @@ set cpo&vim
 function! gitcomplete#complete(arglead, cmdline)
   let command = s:get_command(a:cmdline)
   if command ==# ''
-    return []
+    return gitcomplete#git#complete(a:arglead, a:cmdline)
   else
     return []
   endif
