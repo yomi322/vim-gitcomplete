@@ -21,5 +21,13 @@ function! gitcomplete#utils#get_gitdir()
 endfunction
 
 
+function! gitcomplete#utils#heads()
+  let s = vimproc#system(
+  \         "git for-each-ref --format='%(refname:short)' refs/heads")
+  return vimproc#get_last_status() == 0 ?
+  \        gitcomplete#utils#to_comp(split(s, '\n')) : []
+endfunction
+
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
