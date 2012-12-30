@@ -36,5 +36,17 @@ function! s:get_command(cmdline)
 endfunction
 
 
+function! s:get_aliased_command(command)
+  let s = vimproc#system('git config --get alias.' . a:command)
+  let expanded = vimproc#get_last_status() == 0 ? split(s) : []
+  for w in expanded
+    if w !~# '^!\|^-\|^git$'
+      return w
+    endif
+  endfor
+  return ''
+endfunction
+
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
