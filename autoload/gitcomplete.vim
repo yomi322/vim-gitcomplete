@@ -12,7 +12,18 @@ function! gitcomplete#complete(arglead, cmdline)
       return call('gitcomplete#' . command . '#complete',
       \           [a:arglead, a:cmdline])
     catch /^Vim\%((\a\+)\)\=:E117/
-      return []
+      let command = s:get_aliased_command(command)
+      if command ==# ''
+        return []
+      else
+        let command = substitute(command, '-', '_', 'g')
+        try
+          return call('gitcomplete#' . command . '#complete',
+          \           [a:arglead, a:cmdline])
+        catch /^Vim\%((\a\+)\)\=:E117/
+          return []
+        endtry
+      endif
     endtry
   endif
 endfunction
