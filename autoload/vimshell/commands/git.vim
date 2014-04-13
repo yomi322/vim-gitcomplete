@@ -11,6 +11,9 @@ function! vimshell#commands#git#define()
 endfunction
 
 function! s:command.execute(args, context)
+  if vimshell#version() > 1000
+    return vimshell#helpers#execute_internal_command('exe', ['git'] + a:args, a:context)
+  endif
   return vimshell#execute_internal_command('exe', ['git'] + a:args, a:context)
 endfunction
 
